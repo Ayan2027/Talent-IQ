@@ -30,7 +30,42 @@ function Navbar() {
         </Link>
 
         <div className="flex items-center gap-1">
-          
+          {/* PROBLEMS PAGE LINK */}
+          <Link
+            to={"/problems"}
+            className={`px-4 py-2.5 rounded-lg transition-all duration-200 
+              ${
+                isActive("/problems")
+                  ? "bg-primary text-primary-content"
+                  : "hover:bg-base-200 text-base-content/70 hover:text-base-content"
+              }
+              
+              `}
+          >
+            <div className="flex items-center gap-x-2.5">
+              <BookOpenIcon className="size-4" />
+              <span className="font-medium hidden sm:inline">Problems</span>
+            </div>
+          </Link>
+
+          {/* DASHBORD PAGE LINK */}
+          <Link
+            to={"/dashboard"}
+            className={`px-4 py-2.5 rounded-lg transition-all duration-200 
+              ${
+                isActive("/dashboard")
+                  ? "bg-primary text-primary-content"
+                  : "hover:bg-base-200 text-base-content/70 hover:text-base-content"
+              }
+              
+              `}
+          >
+            <div className="flex items-center gap-x-2.5">
+              <LayoutDashboardIcon className="size-4" />
+              <span className="font-medium hidden sm:inline">Dashbord</span>
+            </div>
+          </Link>
+
           <div className="ml-4 mt-2">
             <UserButton />
           </div>
