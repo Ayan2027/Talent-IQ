@@ -12,7 +12,7 @@ import Navbar from "../components/Navbar";
 
 import {
   Panel,
-  PanelResizeHandle,
+  ResizeHandle,
   ResizablePanelGroup,
 } from "react-resizable-panels";
 
@@ -48,7 +48,6 @@ function SessionPage() {
   const { call, channel, chatClient, isInitializingCall, streamClient } =
     useStreamClient(session, loadingSession, isHost, isParticipant);
 
-  // find the problem data based on session problem title
   const problemData = session?.problem
     ? Object.values(PROBLEMS).find((p) => p.title === session.problem)
     : null;
@@ -58,21 +57,17 @@ function SessionPage() {
     problemData?.starterCode?.[selectedLanguage] || ""
   );
 
-  // auto-join session if user is not already a participant and not the host
   useEffect(() => {
     if (!session || !user || loadingSession) return;
     if (isHost || isParticipant) return;
-
     joinSessionMutation.mutate(id, { onSuccess: refetch });
   }, [session, user, loadingSession, isHost, isParticipant, id]);
 
-  // redirect participant when session ends
   useEffect(() => {
     if (!session || loadingSession) return;
     if (session.status === "completed") navigate("/dashboard");
   }, [session, loadingSession, navigate]);
 
-  // update code when problem loads or changes
   useEffect(() => {
     if (problemData?.starterCode?.[selectedLanguage]) {
       setCode(problemData.starterCode[selectedLanguage]);
@@ -82,8 +77,7 @@ function SessionPage() {
   const handleLanguageChange = (e) => {
     const newLang = e.target.value;
     setSelectedLanguage(newLang);
-    const starterCode = problemData?.starterCode?.[newLang] || "";
-    setCode(starterCode);
+    setCode(problemData?.starterCode?.[newLang] || "");
     setOutput(null);
   };
 
@@ -113,13 +107,12 @@ function SessionPage() {
 
       <div className="flex-1">
         <ResizablePanelGroup direction="horizontal">
-          {/* LEFT PANEL */}
+          {/* LEFT */}
           <Panel defaultSize={50} minSize={30}>
             <ResizablePanelGroup direction="vertical">
-              {/* PROBLEM DETAILS */}
               <Panel defaultSize={50} minSize={20}>
                 <div className="h-full overflow-y-auto bg-base-200 p-6">
-                  <h1 className="text-3xl font-bold mb-2">
+                  <h1 className="text-3xl font-bold">
                     {session?.problem || "Loading..."}
                   </h1>
                   <span
@@ -132,9 +125,8 @@ function SessionPage() {
                 </div>
               </Panel>
 
-              <PanelResizeHandle className="h-2 bg-base-300 cursor-row-resize" />
+              <ResizeHandle className="h-2 bg-base-300 cursor-row-resize" />
 
-              {/* CODE + OUTPUT */}
               <Panel defaultSize={50} minSize={20}>
                 <ResizablePanelGroup direction="vertical">
                   <Panel defaultSize={70}>
@@ -148,7 +140,7 @@ function SessionPage() {
                     />
                   </Panel>
 
-                  <PanelResizeHandle className="h-2 bg-base-300 cursor-row-resize" />
+                  <ResizeHandle className="h-2 bg-base-300 cursor-row-resize" />
 
                   <Panel defaultSize={30}>
                     <OutputPanel output={output} />
@@ -158,9 +150,9 @@ function SessionPage() {
             </ResizablePanelGroup>
           </Panel>
 
-          <PanelResizeHandle className="w-2 bg-base-300 cursor-col-resize" />
+          <ResizeHandle className="w-2 bg-base-300 cursor-col-resize" />
 
-          {/* RIGHT PANEL - VIDEO */}
+          {/* RIGHT */}
           <Panel defaultSize={50} minSize={30}>
             {isInitializingCall ? (
               <div className="h-full flex items-center justify-center">

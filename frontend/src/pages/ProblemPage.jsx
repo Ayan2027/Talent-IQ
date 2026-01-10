@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 import {
   Panel,
-  PanelResizeHandle,
+  ResizeHandle,
   ResizablePanelGroup,
 } from "react-resizable-panels";
 
@@ -31,7 +31,6 @@ function ProblemPage() {
 
   const currentProblem = PROBLEMS[currentProblemId];
 
-  // update problem when URL param changes
   useEffect(() => {
     if (id && PROBLEMS[id]) {
       setCurrentProblemId(id);
@@ -51,21 +50,12 @@ function ProblemPage() {
     navigate(`/problem/${newProblemId}`);
 
   const triggerConfetti = () => {
-    confetti({
-      particleCount: 80,
-      spread: 250,
-      origin: { x: 0.2, y: 0.6 },
-    });
-
-    confetti({
-      particleCount: 80,
-      spread: 250,
-      origin: { x: 0.8, y: 0.6 },
-    });
+    confetti({ particleCount: 80, spread: 250, origin: { x: 0.2, y: 0.6 } });
+    confetti({ particleCount: 80, spread: 250, origin: { x: 0.8, y: 0.6 } });
   };
 
-  const normalizeOutput = (output) => {
-    return output
+  const normalizeOutput = (output) =>
+    output
       .trim()
       .split("\n")
       .map((line) =>
@@ -77,13 +67,9 @@ function ProblemPage() {
       )
       .filter((line) => line.length > 0)
       .join("\n");
-  };
 
-  const checkIfTestsPassed = (actualOutput, expectedOutput) => {
-    const normalizedActual = normalizeOutput(actualOutput);
-    const normalizedExpected = normalizeOutput(expectedOutput);
-    return normalizedActual === normalizedExpected;
-  };
+  const checkIfTestsPassed = (actualOutput, expectedOutput) =>
+    normalizeOutput(actualOutput) === normalizeOutput(expectedOutput);
 
   const handleRunCode = async () => {
     setIsRunning(true);
@@ -96,12 +82,8 @@ function ProblemPage() {
     if (result.success) {
       const expectedOutput =
         currentProblem.expectedOutput[selectedLanguage];
-      const testsPassed = checkIfTestsPassed(
-        result.output,
-        expectedOutput
-      );
 
-      if (testsPassed) {
+      if (checkIfTestsPassed(result.output, expectedOutput)) {
         triggerConfetti();
         toast.success("All tests passed! Great job!");
       } else {
@@ -118,7 +100,6 @@ function ProblemPage() {
 
       <div className="flex-1">
         <ResizablePanelGroup direction="horizontal">
-          {/* Left panel - problem description */}
           <Panel defaultSize={40} minSize={30}>
             <ProblemDescription
               problem={currentProblem}
@@ -128,12 +109,10 @@ function ProblemPage() {
             />
           </Panel>
 
-          <PanelResizeHandle className="w-2 bg-base-300 hover:bg-primary transition-colors cursor-col-resize" />
+          <ResizeHandle className="w-2 bg-base-300 hover:bg-primary transition-colors cursor-col-resize" />
 
-          {/* Right panel - code editor + output */}
           <Panel defaultSize={60} minSize={30}>
             <ResizablePanelGroup direction="vertical">
-              {/* Top - Code editor */}
               <Panel defaultSize={70} minSize={30}>
                 <CodeEditorPanel
                   selectedLanguage={selectedLanguage}
@@ -145,9 +124,8 @@ function ProblemPage() {
                 />
               </Panel>
 
-              <PanelResizeHandle className="h-2 bg-base-300 hover:bg-primary transition-colors cursor-row-resize" />
+              <ResizeHandle className="h-2 bg-base-300 hover:bg-primary transition-colors cursor-row-resize" />
 
-              {/* Bottom - Output */}
               <Panel defaultSize={30} minSize={30}>
                 <OutputPanel output={output} />
               </Panel>
