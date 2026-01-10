@@ -12,12 +12,16 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.59.2",
     "@monaco-editor/react": "^4.7.0",
+    "@stream-io/video-react-sdk": "^1.24.0",
     "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
     "react-router": "^7.9.4",
+    "stream-chat": "^9.23.0",
+    "stream-chat-react": "^13.9.0",
     "tailwindcss": "^4.1.14",
     "talent-iq": "file:.."
   },
