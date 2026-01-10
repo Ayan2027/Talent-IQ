@@ -3,7 +3,12 @@ import { useNavigate, useParams } from "react-router";
 import { PROBLEMS } from "../data/problems";
 import Navbar from "../components/Navbar";
 
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import {
+  Panel,
+  PanelResizeHandle,
+  ResizablePanelGroup,
+} from "react-resizable-panels";
+
 import ProblemDescription from "../components/ProblemDescription";
 import OutputPanel from "../components/OutputPanel";
 import CodeEditorPanel from "../components/CodeEditorPanel";
@@ -18,7 +23,9 @@ function ProblemPage() {
 
   const [currentProblemId, setCurrentProblemId] = useState("two-sum");
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-  const [code, setCode] = useState(PROBLEMS[currentProblemId].starterCode.javascript);
+  const [code, setCode] = useState(
+    PROBLEMS[currentProblemId].starterCode.javascript
+  );
   const [output, setOutput] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -40,7 +47,8 @@ function ProblemPage() {
     setOutput(null);
   };
 
-  const handleProblemChange = (newProblemId) => navigate(`/problem/${newProblemId}`);
+  const handleProblemChange = (newProblemId) =>
+    navigate(`/problem/${newProblemId}`);
 
   const triggerConfetti = () => {
     confetti({
@@ -57,17 +65,14 @@ function ProblemPage() {
   };
 
   const normalizeOutput = (output) => {
-    // normalize output for comparison (trim whitespace, handle different spacing)
     return output
       .trim()
       .split("\n")
       .map((line) =>
         line
           .trim()
-          // remove spaces after [ and before ]
           .replace(/\[\s+/g, "[")
           .replace(/\s+\]/g, "]")
-          // normalize spaces around commas to single space after comma
           .replace(/\s*,\s*/g, ",")
       )
       .filter((line) => line.length > 0)
@@ -77,8 +82,7 @@ function ProblemPage() {
   const checkIfTestsPassed = (actualOutput, expectedOutput) => {
     const normalizedActual = normalizeOutput(actualOutput);
     const normalizedExpected = normalizeOutput(expectedOutput);
-
-    return normalizedActual == normalizedExpected;
+    return normalizedActual === normalizedExpected;
   };
 
   const handleRunCode = async () => {
@@ -89,11 +93,13 @@ function ProblemPage() {
     setOutput(result);
     setIsRunning(false);
 
-    // check if code executed successfully and matches expected output
-
     if (result.success) {
-      const expectedOutput = currentProblem.expectedOutput[selectedLanguage];
-      const testsPassed = checkIfTestsPassed(result.output, expectedOutput);
+      const expectedOutput =
+        currentProblem.expectedOutput[selectedLanguage];
+      const testsPassed = checkIfTestsPassed(
+        result.output,
+        expectedOutput
+      );
 
       if (testsPassed) {
         triggerConfetti();
@@ -111,8 +117,8 @@ function ProblemPage() {
       <Navbar />
 
       <div className="flex-1">
-        <PanelGroup direction="horizontal">
-          {/* left panel- problem desc */}
+        <ResizablePanelGroup direction="horizontal">
+          {/* Left panel - problem description */}
           <Panel defaultSize={40} minSize={30}>
             <ProblemDescription
               problem={currentProblem}
@@ -124,10 +130,10 @@ function ProblemPage() {
 
           <PanelResizeHandle className="w-2 bg-base-300 hover:bg-primary transition-colors cursor-col-resize" />
 
-          {/* right panel- code editor & output */}
+          {/* Right panel - code editor + output */}
           <Panel defaultSize={60} minSize={30}>
-            <PanelGroup direction="vertical">
-              {/* Top panel - Code editor */}
+            <ResizablePanelGroup direction="vertical">
+              {/* Top - Code editor */}
               <Panel defaultSize={70} minSize={30}>
                 <CodeEditorPanel
                   selectedLanguage={selectedLanguage}
@@ -141,14 +147,13 @@ function ProblemPage() {
 
               <PanelResizeHandle className="h-2 bg-base-300 hover:bg-primary transition-colors cursor-row-resize" />
 
-              {/* Bottom panel - Output Panel*/}
-
+              {/* Bottom - Output */}
               <Panel defaultSize={30} minSize={30}>
                 <OutputPanel output={output} />
               </Panel>
-            </PanelGroup>
+            </ResizablePanelGroup>
           </Panel>
-        </PanelGroup>
+        </ResizablePanelGroup>
       </div>
     </div>
   );
