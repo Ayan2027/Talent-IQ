@@ -113,11 +113,11 @@ TALENT-IQ
 
 ### Backend (`backend/.env`)
 ```
-PORT=4000
-MONGO_URI=your_mongodb_connection_string
-CLERK_SECRET_KEY=your_clerk_secret_key
-STREAM_API_KEY=your_stream_api_key
-STREAM_API_SECRET=your_stream_api_secret
+PORT=5001
+MONGO_URI=mongodb+srv://ayandhal2014_db_user:ayan2003@cluster0.cjhx2rp.mongodb.net/interview_db
+CLERK_SECRET_KEY=sk_test_gpiButtiZH08g0cqGU9sVz4FT1poFKagMjI0NhXKy3
+STREAM_API_KEY=kwyacaex7etc
+STREAM_API_SECRET=c5q7nbwmhpxm2w6ubyu7njzbjpd8j8w63qu5j43j3anv9havtxdzurwksb8f2v34
 PISTON_URL=https://emkc.org/api/v2/piston
 
 CLIENT_URL=http://localhost:5173
@@ -126,9 +126,9 @@ CLIENT_URL=http://localhost:5173
 
 ### Frontend (`frontend/.env`)
 ```
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-VITE_STREAM_API_KEY=your_stream_api_key
-VITE_BACKEND_URL=http://localhost:4000
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_YWJzb2x1dGUtc3VuYmlyZC04OS5jbGVyay5hY2NvdW50cy5kZXYk
+VITE_STREAM_API_KEY=kwyacaex7etc
+VITE_BACKEND_URL=http://localhost:3000/api
 ```
 
 
